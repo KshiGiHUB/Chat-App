@@ -63,6 +63,7 @@ function Auth() {
 
                 if (data.user.id) {
                     setUserInfo(data.user)
+                    // console.log('first')
                     if (data.user.profileSetup) navigate("/chat")
                     else navigate("/profile")
                 }
@@ -88,7 +89,7 @@ function Auth() {
                     })
                 });
                 const data = await response.json();
-                console.log(data)
+                // console.log(data)
 
                 if (response.status === 201) {
                     setUserInfo(data.user)
