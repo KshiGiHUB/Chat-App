@@ -46,13 +46,13 @@ export const login = async (request, response, next) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            return response.status(404).send("User not found")
+            return response.status(404).send({ status: 404, message: "User not found" })
         }
 
         const auth = await compare(password, user.password)
 
         if (!auth) {
-            return response.status(404).send("Password is incorrect")
+            return response.status(404).send({ status: 404, message: "Password is incorrect" })
         }
 
         response.cookie("jwt", createToken(email, user.id), {
@@ -129,6 +129,18 @@ export const updateProfile = async (request, response, next) => {
                 color: user.color
             }
         })
+    } catch (error) {
+        console.log(error)
+        response.status(500).send("Internal server error")
+    }
+}
+
+export const Logout = async (request, response, next) => {
+    try {
+
+        response.cookie('jwt', '', { maxAge: 1, secure: true, sameSite: "" })
+        return response.status(200).send("Logout Successfull.")
+
     } catch (error) {
         console.log(error)
         response.status(500).send("Internal server error")

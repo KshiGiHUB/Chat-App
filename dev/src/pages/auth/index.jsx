@@ -61,15 +61,18 @@ function Auth() {
                 })
                 const data = await response.json();
 
-                if (data.user.id) {
+                if (data.status === 404) {
+                    toast.error(data.message)
+                }
+
+                if (data.user?.id) {
                     setUserInfo(data.user)
-                    // console.log('first')
                     if (data.user.profileSetup) navigate("/chat")
                     else navigate("/profile")
                 }
 
             } catch (error) {
-                console.log("login error", error)
+                console.error("login error", error)
             }
         }
     }

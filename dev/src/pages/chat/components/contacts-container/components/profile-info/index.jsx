@@ -4,11 +4,33 @@ import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { useAppStore } from '@/store';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { FiEdit2 } from "react-icons/fi"
+import { IoPowerSharp } from 'react-icons/io5'
+import { useNavigate } from 'react-router-dom';
 
 
 const ProfileInfo = () => {
-    const { userInfo } = useAppStore();
-    // console.log(userInfo.color)
+    const { userInfo, setUserInfo } = useAppStore();
+    const navigate = useNavigate();
+
+    const logout = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/auth/logout", {
+                withCredentials: true,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: "include",
+            });
+
+            if (response.status === 200) {
+                setUserInfo(null)
+                navigate('/auth')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div className='absolute bottom-0 h-16 flex items-center justify-between px-10 w-full bg-[#212b33]'>
             <div className='flex gap-3 items-center justify-center'>
@@ -31,14 +53,25 @@ const ProfileInfo = () => {
                     {userInfo.user.firstName && userInfo.user.lastName ? `${userInfo.user.firstName} ${userInfo.user.lastName} ` : "no"}
                 </div>
             </div>
-            <div>
+            <div className='flex gap-5'>
                 <TooltipProvider>
                     <Tooltip>
-                        <TooltipTrigger>
-                            <FiEdit2 className='text-purple-500 text-xl font-medium' />
+                        <TooltipTrigger className='cursor-pointer'>
+                            <FiEdit2 className='text-purple-500 text-xl font-medium' onClick={() => navigate('/profile')} />
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p>Add to library</p>
+                            <p>Edit Profile</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger className='cursor-pointer'>
+                            <IoPowerSharp className='text-red-500 text-xl font-medium' onClick={logout} />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Logout</p>
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
