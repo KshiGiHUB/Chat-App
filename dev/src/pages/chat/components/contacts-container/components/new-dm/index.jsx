@@ -2,6 +2,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useState } from 'react';
 import { FaPlus } from "react-icons/fa"
 import Lottie from 'react-lottie'
+import { Input } from '@/components/ui/input';
 import { animationDefaultOptions } from '@/components/lib/utils'
 
 import {
@@ -12,13 +13,37 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from '@/components/ui/input';
 
 const NewDm = () => {
     const [openNewContactModal, setopenNewContactModal] = useState(false);
     const [searchedContacts, setSearchContacts] = useState([]);
-    const searchContacts = async () => {
+    const searchContacts = async (searchTerm) => {
+        try {
+            if (searchTerm.length > 0) {
+                const response = await fetch("http://localhost:5000/api/contacts/search", {
+                    withCredentials: true,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        searchTerm
+                    })
+                })
+                const data = await response.json();
 
+                if (data.status === 200 && data.contacts) {
+                    setSearchContacts(data.contacts)
+                }
+                else {
+                    searchContacts([])
+                }
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <>
@@ -50,7 +75,7 @@ const NewDm = () => {
                             className="rounded-lg p-6 bg-[#2c2e3b] border-none"
                             onChange={(e) => searchContacts(e.target.value)} />
                     </div>
-                    {searchContacts.length <= 0 && (
+                    {searchedContacts.length <= 0 && (
                         <div className='flex-1 md:bg-[#1c1d25] md:flex flex-col justify-center hidden duration-1000 transition-all'>
                             <Lottie
                                 isClickToPauseDisabled={true}
