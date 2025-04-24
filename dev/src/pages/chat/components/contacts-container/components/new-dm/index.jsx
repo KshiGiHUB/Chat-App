@@ -13,6 +13,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar } from '@/components/ui/avatar';
 
 const NewDm = () => {
     const [openNewContactModal, setopenNewContactModal] = useState(false);
@@ -75,6 +77,34 @@ const NewDm = () => {
                             className="rounded-lg p-6 bg-[#2c2e3b] border-none"
                             onChange={(e) => searchContacts(e.target.value)} />
                     </div>
+                    <ScrollArea className='h-[250px]'>
+                        <div className='flex flex-col gap-5'>
+                            {searchedContacts.map((contact) => (
+                                <div key={contact.contacts.id} className='flex gap-3 items-center cursor-pointer'>
+                                    <div className='w-12 h-12 relative'>
+                                        <Avatar className='h-12 w-12 rounded-full overflow-hidden'>
+                                            {contact.contacts.image ? (
+                                                <AvatarImage className='object-cover w-full h-full bg-black'
+                                                    src={contact.contacts.image}
+                                                    alt="profile" />
+                                            ) : (
+                                                <div className={`uppercase h-12 w-12  text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(contact.contacts.color)}`}>
+                                                    {contact.contacts.firstName ? contact.contacts.firstName.split("").shift() : 'H'}
+                                                </div>
+                                            )
+                                            }
+                                        </Avatar>
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <span>
+                                            {contact.contacts.firstName && contact.contacts.lastName ? `${contact.contacts.firstName} ${contact.contacts.lastName} ` : "no"}
+                                        </span>
+                                        <span className='text-xs'>{contact.contacts.email}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </ScrollArea>
                     {searchedContacts.length <= 0 && (
                         <div className='flex-1 md:bg-[#1c1d25] md:flex flex-col justify-center hidden duration-1000 transition-all'>
                             <Lottie
