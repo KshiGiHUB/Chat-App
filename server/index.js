@@ -5,6 +5,7 @@ import cors from "cors"
 import dotenv from "dotenv"
 import authRoutes from "./routes/AuthRoutes.js"
 import contactsRoute from "./routes/ContactRoutes.js"
+import setUpSocket from "./socket.js"
 
 dotenv.config()
 
@@ -31,6 +32,8 @@ app.use("/api/contacts", contactsRoute)
 const server = app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`)
 })
+
+setUpSocket(server)
 
 mongoose
     .connect(databaseURL)
