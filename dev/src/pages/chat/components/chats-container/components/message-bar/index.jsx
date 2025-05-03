@@ -7,11 +7,41 @@ import { IoSend } from 'react-icons/io5';
 import { RiEmojiStickerLine } from 'react-icons/ri';
 
 const MessageBar = () => {
-    const { selectedChatData, selectedChatType, userInfo } = useAppStore();
+    const { selectedChatData, selectedChatType, setSelectedChatMessages, selectedChatMessages, userInfo } = useAppStore();
     const socket = useSocket()
     const emojiRef = useRef();
     const [message, setMessage] = useState("");
     const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+
+    useEffect(() => {
+        const getMessages = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/messages/get-messages", {
+                    withCredentials: true,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        id: selectedChatData._id,
+                    })
+                })
+                const data = await response.json();
+
+                if (data.messages) {
+                    setSelectedChatMessages(data.messages)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if (selectedChatData._id) {
+            if (selectedChatType === "contact") {
+                getMessages();
+            }
+        }
+    }, [selectedChatData, selectedChatType])
 
     useEffect(() => {
         function handleClickOutside(event) {
