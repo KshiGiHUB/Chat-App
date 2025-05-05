@@ -29,6 +29,7 @@ const MessageBar = () => {
                 })
                 const data = await response.json();
 
+                console.log(data)
                 if (data.messages) {
                     setSelectedChatMessages(data.messages)
                 }

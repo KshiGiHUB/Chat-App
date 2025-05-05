@@ -20,7 +20,7 @@ const MessageContainer = () => {
             lastDate = messageDate
             return (
                 <div key={index}>
-                    {showDate && (
+                    {showDate && ( // this one is for showing date 
                         <div className='text-center text-gray-500 my-2'>
                             {moment(message.timestamp).format("LL")}
                         </div>
