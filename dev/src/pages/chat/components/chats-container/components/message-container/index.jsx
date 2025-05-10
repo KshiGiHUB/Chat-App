@@ -20,9 +20,28 @@ const MessageContainer = () => {
         return imageRegex.test(filepath)
     }
 
-    const downloadFile = (file) => {
+    const downloadFile = async (file) => {
+        try {
+            const response = await fetch(`http://localhost:5000/${file}`, {
+                method: 'GET',
+                credentials: "include",
+            });
 
+            const blob = await response.blob();
+            const urlBlob = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = urlBlob;
+            link.setAttribute("download", file.split("/").pop());
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(urlBlob);
+        } catch (error) {
+            console.error("Download failed", error);
+        }
     }
+
 
     const renderMessage = () => {
         let lastDate = null;
