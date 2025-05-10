@@ -23,7 +23,7 @@ app.use(
     })
 )
 
-app.use("/uploads/files", express.static("uploads/file"))
+app.use("/uploads/files", express.static("uploads/files"))
 
 app.use(cookieParser())
 app.use(express.json())
