@@ -3,6 +3,7 @@ import ProfileInfo from './components/profile-info';
 import NewDm from './components/new-dm';
 import { useAppStore } from '@/store';
 import ContactList from './components/contacts-list';
+import CreateChannels from './components/create-channels';
 
 function ContactsContainer() {
 
@@ -47,6 +48,7 @@ function ContactsContainer() {
             <div className='my-5'>
                 <div className='flex items-center justify-between pr-10'>
                     <Title text="Channels" />
+                    <CreateChannels />
                 </div>
             </div>
 
