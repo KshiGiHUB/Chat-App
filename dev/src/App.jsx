@@ -11,12 +11,14 @@ import { useAppStore } from './store'
 
 const PrivateRoute = ({ children }) => {
   const { userInfo } = useAppStore();
+  console.log(userInfo)
   const isAuthenticate = !!userInfo;
   return isAuthenticate ? children : <Navigate to="/auth" />;
 }
 
 const AuthRoute = ({ children }) => {
   const { userInfo } = useAppStore();
+  console.log(userInfo)
   const isAuthenticate = !!userInfo;
   return isAuthenticate ? <Navigate to="/chat" /> : children;
 }
@@ -40,7 +42,7 @@ function App() {
           credentials: "include",
         })
         const data = await response.json();
-        if (response.status == 200 && data?.user?.id) {
+        if (response.status == 200 && data?.id) {
           // console.log(data)
           setUserInfo(data);
         } else {
