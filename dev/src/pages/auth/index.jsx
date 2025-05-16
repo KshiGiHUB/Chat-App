@@ -66,8 +66,10 @@ function Auth() {
                 }
 
                 if (data.user?.id) {
+
                     setUserInfo(data)
                     if (data.user.profileSetup) navigate("/chat")
+
                     else navigate("/profile")
                 }
 
