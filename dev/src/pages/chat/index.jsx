@@ -10,6 +10,7 @@ import EmptyChatContainer from './components/empty-chat-container';
 function Chat() {
     const { userInfo, selectedChatType } = useAppStore();
     const navigate = useNavigate();
+    console.log(userInfo)
 
     useEffect(() => {
         if (userInfo === undefined) return;
