@@ -28,7 +28,6 @@ function App() {
   const { userInfo, setUserInfo } = useAppStore();
   const [loading, setLoading] = useState(true);
 
-  // console.log('second', userInfo)
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -42,8 +41,10 @@ function App() {
           credentials: "include",
         })
         const data = await response.json();
-        if (response.status == 200 && data?.id) {
-          // console.log(data)
+
+        if (response.status == 200 && data?.user?.id) {
+          
+
           setUserInfo(data);
         } else {
           setUserInfo(undefined)
@@ -54,7 +55,7 @@ function App() {
         setLoading(false)
       }
     }
-    if (!userInfo) {
+    if (!userInfo == undefined) {
       getUserInfo()
     } else {
       setLoading(false)

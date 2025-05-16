@@ -66,13 +66,10 @@ function Auth() {
                 }
 
                 if (data.user?.id) {
-                    console.log('data', data.user.profileSetup)
 
-                    setUserInfo(data.user)
-                    if (data.user.profileSetup) {
-                        console.log(data)
-                        navigate("/chat")
-                    }
+                    setUserInfo(data)
+                    if (data.user.profileSetup) navigate("/chat")
+
                     else navigate("/profile")
                 }
 
