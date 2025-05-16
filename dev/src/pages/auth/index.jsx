@@ -97,7 +97,7 @@ function Auth() {
                 // console.log(data)
 
                 if (response.status === 201) {
-                    setUserInfo(data.user)
+                    setUserInfo(data)
                     navigate('/profile')
                 }
 

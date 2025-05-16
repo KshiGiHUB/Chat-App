@@ -73,7 +73,7 @@ function Profile() {
     }
 
     const handleNavigate = () => {
-        if (userInfo.profileSetup) {
+        if (userInfo.user.profileSetup) {
             navigate("/chat")
         } else {
             toast.error("Please setup profile")
