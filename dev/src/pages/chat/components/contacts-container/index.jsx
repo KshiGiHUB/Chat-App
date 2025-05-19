@@ -7,12 +7,12 @@ import CreateChannels from './components/create-channels';
 
 function ContactsContainer() {
 
-    const { setDirectMessagesContacts, directMessagesContacts } = useAppStore();
+    const { setDirectMessagesContacts, directMessagesContacts, channels, setChannels } = useAppStore();
 
     useEffect(() => {
         const getContacts = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/contacts/get-contacts=for-dm", {
+                const response = await fetch("http://localhost:5000/api/contacts/get-contacts-for-dm", {
                     withCredentials: true,
                     method: 'GET',
                     headers: {
@@ -31,8 +31,31 @@ function ContactsContainer() {
                 console.log(error);
             }
         }
+        const getChannels = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/channel/get-channel", {
+                    withCredentials: true,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: "include",
+
+                })
+                const data = await response.json();
+
+                console.log(data)
+                if (data.channels) {
+                    setChannels(data.channels)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
         getContacts()
-    }, [])
+        getChannels()
+    }, [setChannels, setDirectMessagesContacts])
+
     return (
         <div className='relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full'>
             <div className='pt-3'><Logo /></div>
@@ -49,6 +72,9 @@ function ContactsContainer() {
                 <div className='flex items-center justify-between pr-10'>
                     <Title text="Channels" />
                     <CreateChannels />
+                </div>
+                <div className='max-h-[38vh] overflow-y-auto scrollbar-hidden'>
+                    <ContactList contacts={channels} isChannel={true} />
                 </div>
             </div>
 

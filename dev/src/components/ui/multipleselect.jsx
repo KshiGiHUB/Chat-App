@@ -10,7 +10,7 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
+import { cn } from "@/components/lib/utils";
 
 const CommandEmpty = forwardRef(({ className, ...props }, forwardedRef) => {
     const render = useCommandState((state) => state.filtered.count === 0);

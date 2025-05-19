@@ -5,6 +5,6 @@ import { getAllContacts, getContactsForDMList, searchContacts } from "../control
 const contactsRoute = Router();
 
 contactsRoute.post('/search', verifyToken, searchContacts)
-contactsRoute.get('/get-contacts=for-dm', verifyToken, getContactsForDMList)
+contactsRoute.get('/get-contacts-for-dm', verifyToken, getContactsForDMList)
 contactsRoute.get('/get-all-contact', verifyToken, getAllContacts)
 export default contactsRoute;
