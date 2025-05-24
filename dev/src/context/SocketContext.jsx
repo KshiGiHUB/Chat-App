@@ -15,35 +15,34 @@ export const SocketProvider = ({ children }) => {
         if (userInfo) {
             socket.current = io('http://localhost:5000', {
                 withCredentials: true,
-                query: { userId: userInfo.user.id },
+                query: { userId: userInfo.id },
             })
-            // console.log(userInfo)
-            console.log("Socket Object:", socket.current);
             socket.current.on("connect", () => {
                 console.log('connected to socket server')
             })
 
             const handleRecieveMessage = (message) => {
-                const { selectedChatType, selectedChatData, addMessage } = useAppStore.getState();
-                console.log(message)
-                // console.log('chat', selectedChatData)
+                const { selectedChatType, selectedChatData, addMessage, addContactInDmContact } = useAppStore.getState();
+
                 if (selectedChatType !== undefined && (selectedChatData._id === message.sender._id || selectedChatData._id === message.recipient._id)) {
-                    console.log('msg', message)
+
                     addMessage(message)
                 }
+                addContactInDmContact(message)
             }
 
             const handleRecieveChannelMessage = (message) => {
-                console.log('channel', message)
-                const { selectedChatData, selectedChatType, addMessage } = useAppStore.getState();
+
+                const { selectedChatData, selectedChatType, addMessage, addChannelInChannelList } = useAppStore.getState();
 
                 if (selectedChatType !== undefined && selectedChatData._id === message.channelId) {
                     addMessage(message)
                 }
+                addChannelInChannelList(message)
             }
 
             socket.current.on("receiveMessage", handleRecieveMessage)
-            socket.current.on("recieve-channel-message", handleRecieveChannelMessage)
+            socket.current.on("receive-channel-message", handleRecieveChannelMessage)
 
             return () => {
                 socket.current.disconnect()

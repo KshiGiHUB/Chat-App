@@ -11,14 +11,12 @@ import { useAppStore } from './store'
 
 const PrivateRoute = ({ children }) => {
   const { userInfo } = useAppStore();
-  console.log('private', userInfo)
   const isAuthenticate = !!userInfo;
   return isAuthenticate ? children : <Navigate to="/auth" />;
 }
 
 const AuthRoute = ({ children }) => {
   const { userInfo } = useAppStore();
-  console.log('auth', userInfo)
   const isAuthenticate = !!userInfo;
   return isAuthenticate ? <Navigate to="/chat" /> : children;
 }
@@ -27,7 +25,6 @@ function App() {
 
   const { userInfo, setUserInfo } = useAppStore();
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -42,7 +39,7 @@ function App() {
         })
         const data = await response.json();
 
-        if (response.status == 200 && data?.user?.id) {
+        if (response.status == 200 && data?.id) {
           setUserInfo(data);
         } else {
           setUserInfo(undefined)

@@ -36,13 +36,13 @@ const ProfileInfo = () => {
             <div className='flex gap-3 items-center justify-center'>
                 <div className='w-12 h-12 relative'>
                     <Avatar className='h-12 w-12 rounded-full overflow-hidden'>
-                        {userInfo.user.image ? (
+                        {userInfo.image ? (
                             <AvatarImage className='object-cover w-full h-full bg-black'
-                                src={userInfo.user.image}
+                                src={userInfo.image}
                                 alt="profile" />
                         ) : (
-                            <div className={`uppercase h-12 w-12  text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(userInfo.user.color)}`}>
-                                {userInfo.user.firstName ? userInfo.user.firstName.split("").shift() : 'H'}
+                            <div className={`uppercase h-12 w-12  text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(userInfo.color)}`}>
+                                {userInfo.firstName ? userInfo.firstName.split("").shift() : 'H'}
                             </div>
                         )
 
@@ -50,7 +50,7 @@ const ProfileInfo = () => {
                     </Avatar>
                 </div>
                 <div>
-                    {userInfo.user.firstName && userInfo.user.lastName ? `${userInfo.user.firstName} ${userInfo.user.lastName} ` : "no"}
+                    {userInfo.firstName && userInfo.lastName ? `${userInfo.firstName} ${userInfo.lastName} ` : "no"}
                 </div>
             </div>
             <div className='flex gap-5'>

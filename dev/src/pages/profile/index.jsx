@@ -23,10 +23,10 @@ function Profile() {
     // console.log(userInfo)
 
     useEffect(() => {
-        if (userInfo.user.profileSetup) {
-            setFirstName(userInfo.user.firstName)
-            setLastName(userInfo.user.lastName)
-            setSelectedColor(userInfo.user.color)
+        if (userInfo.profileSetup) {
+            setFirstName(userInfo.firstName)
+            setLastName(userInfo.lastName)
+            setSelectedColor(userInfo.color)
         }
     }, [userInfo])
 
@@ -60,7 +60,7 @@ function Profile() {
                 const data = await response.json();
 
                 if (response.status === 200) {
-                    setUserInfo(data)
+                    setUserInfo(data.user)
                     // console.log(data)
                     toast.success("Profile updated successfully")
                     navigate("/chat")
@@ -73,7 +73,7 @@ function Profile() {
     }
 
     const handleNavigate = () => {
-        if (userInfo.user.profileSetup) {
+        if (userInfo.profileSetup) {
             navigate("/chat")
         } else {
             toast.error("Please setup profile")
@@ -137,7 +137,7 @@ function Profile() {
                                 placeholder="Email"
                                 type="email"
                                 disabled
-                                value={userInfo.user.email}
+                                value={userInfo.email}
                                 className="rounded-lg p-6 bg-[#2c2e3b] border-none" />
                             <Input
                                 placeholder="FirstName"

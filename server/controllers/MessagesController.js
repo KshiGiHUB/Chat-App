@@ -19,7 +19,6 @@ export const getMessages = async (request, response, next) => {
         return response.status(200).send({ messages })
 
     } catch (error) {
-        console.log(error)
         response.status(500).send("Internal server error")
     }
 }
@@ -39,7 +38,6 @@ export const uploadFile = async (request, response, next) => {
         return response.status(200).send({ filePath: fileName })
 
     } catch (error) {
-        console.log(error)
         response.status(500).send("Internal server error")
     }
 }

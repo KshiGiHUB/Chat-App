@@ -10,12 +10,11 @@ import EmptyChatContainer from './components/empty-chat-container';
 function Chat() {
     const { userInfo, selectedChatType } = useAppStore();
     const navigate = useNavigate();
-    console.log(userInfo)
 
     useEffect(() => {
         if (userInfo === undefined) return;
 
-        if (!userInfo.user.profileSetup) {
+        if (!userInfo.profileSetup) {
             toast("Please setup profile to continue");
             navigate("/profile");
         }

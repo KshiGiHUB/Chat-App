@@ -14,36 +14,7 @@ const MessageBar = () => {
     const [message, setMessage] = useState("");
     const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
-    useEffect(() => {
-        const getMessages = async () => {
-            try {
-                const response = await fetch("http://localhost:5000/api/messages/get-messages", {
-                    withCredentials: true,
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: "include",
-                    body: JSON.stringify({
-                        id: selectedChatData._id,
-                    })
-                })
-                const data = await response.json();
 
-                console.log(data)
-                if (data.messages) {
-                    setSelectedChatMessages(data.messages)
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        if (selectedChatData._id) {
-            if (selectedChatType === "contact") {
-                getMessages();
-            }
-        }
-    }, [selectedChatData, selectedChatType])
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -65,7 +36,7 @@ const MessageBar = () => {
     const handleSendMessage = async () => {
         if (selectedChatType === 'contact') {
             socket.emit("sendMessage", {
-                sender: userInfo.user.id,
+                sender: userInfo.id,
                 content: message,
                 recipient: selectedChatData._id,
                 messageType: "text",
@@ -73,7 +44,7 @@ const MessageBar = () => {
             })
         } else if (selectedChatType === 'channel') {
             socket.emit("send-channel-message", {
-                sender: userInfo.user.id,
+                sender: userInfo.id,
                 content: message,
                 messageType: "text",
                 fileUrl: undefined,
@@ -106,27 +77,25 @@ const MessageBar = () => {
                 })
 
                 const data = await response.json();
-                console.log(data)
                 if (response.status === 200 && data) {
-                    console.log('first', data)
                     if (selectedChatType === "contact") {
-                        console.log('second', data)
                         socket.emit("sendMessage", {
-                            sender: userInfo.user.id,
+                            sender: userInfo.id,
                             content: undefined,
                             recipient: selectedChatData._id,
                             messageType: "file",
                             fileUrl: data.filePath,
                         })
                     }
-                } else if (selectedChatType === 'channel') {
-                    socket.emit("send-channel-message", {
-                        sender: userInfo.user.id,
-                        content: undefined,
-                        messageType: "file",
-                        fileUrl: data.filePath,
-                        channelId: selectedChatData._id
-                    })
+                    else if (selectedChatType === 'channel') {
+                        socket.emit("send-channel-message", {
+                            sender: userInfo.id,
+                            content: undefined,
+                            messageType: "file",
+                            fileUrl: data.filePath,
+                            channelId: selectedChatData._id
+                        })
+                    }
                 }
             }
         } catch (error) {

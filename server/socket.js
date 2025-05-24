@@ -50,7 +50,8 @@ const setUpSocket = (server) => {
             content,
             messageType,
             timestamp: new Date(),
-            fileUrl
+            fileUrl,
+            channelId
         })
 
         const messageData = await Message.findById(createdMessage._id)
@@ -74,7 +75,7 @@ const setUpSocket = (server) => {
             })
             const adminSocketId = userSocketMap.get(channel.admin._id.toString())
             if (adminSocketId) {
-                io.to(adminSocketId).emit("recieve-channel-message", finalData)
+                io.to(adminSocketId).emit("receive-channel-message", finalData)
             }
         }
     }

@@ -22,8 +22,6 @@ function ContactsContainer() {
 
                 })
                 const data = await response.json();
-
-                console.log(data)
                 if (data.contacts) {
                     setDirectMessagesContacts(data.contacts)
                 }
@@ -43,8 +41,6 @@ function ContactsContainer() {
 
                 })
                 const data = await response.json();
-
-                console.log(data)
                 if (data.channels) {
                     setChannels(data.channels)
                 }

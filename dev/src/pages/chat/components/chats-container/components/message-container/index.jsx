@@ -28,8 +28,6 @@ const MessageContainer = () => {
                     })
                 })
                 const data = await response.json();
-
-                console.log(data)
                 if (data.messages) {
                     setSelectedChatMessages(data.messages)
                 }
@@ -50,8 +48,6 @@ const MessageContainer = () => {
 
                 })
                 const data = await response.json();
-
-                console.log(data)
                 if (data.messages) {
                     setSelectedChatMessages(data.messages)
                 }
@@ -174,7 +170,7 @@ const MessageContainer = () => {
 
     const renderChannelMessages = (message) => {
         return (
-            <div className={`mt-5 ${message.sender._id === userInfo._id ? "text-left" : "text-right"}`}>
+            <div className={`mt-5 ${message.sender._id !== userInfo.id ? "text-left" : "text-right"}`}>
                 {message.messageType === 'text' && (
                     <div className={`${message.sender._id === userInfo.id ?
                         "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50" :
@@ -190,13 +186,13 @@ const MessageContainer = () => {
                         "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
                         } border inline-block p-4 rounded my-1 max-w-[50%] break-words`}
                     >
-                        {checkIfImage(message.sender.fileUrl) ? (
+                        {checkIfImage(message.fileUrl) ? (
                             <div className='cursor-pointer'
                                 onClick={() => {
                                     setShowImage(true)
-                                    setImageURL(message.sender.fileUrl)
+                                    setImageURL(message.fileUrl)
                                 }}>
-                                <img src={`http://localhost:5000/${message.sender.fileUrl}`}
+                                <img src={`http://localhost:5000/${message.fileUrl}`}
                                     height={300}
                                     width={300} />
                             </div>
@@ -207,7 +203,7 @@ const MessageContainer = () => {
                                 </span>
                                 <span>{message.fileUrl.split("/").pop()}</span>
                                 <span className='bg-black/20 p-3 text-2xl rounded-full hover:bg-black/50 cursor-pointer transition-all duration-300'
-                                    onClick={() => downloadFile(message.sender.fileUrl)}>
+                                    onClick={() => downloadFile(message.fileUrl)}>
                                     <IoMdArrowRoundDown />
                                 </span>
                             </div>
@@ -216,13 +212,13 @@ const MessageContainer = () => {
                 )}
                 {message.sender._id !== userInfo.id ? (
                     <div className='flex items-center justify-start gap-3'>
-                        <Avatar className='h-12 w-12 rounded-full overflow-hidden'>
+                        <Avatar className='h-8 w-8 rounded-full overflow-hidden'>
                             {message.sender?.image ? (
                                 <AvatarImage className='object-cover w-full h-full bg-black'
                                     src={message.sender?.image}
                                     alt="profile" />
                             ) : (
-                                <div className={`uppercase h-12 w-12  text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(message.sender?.color)}`}>
+                                <div className={`uppercase h-8 w-8  text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(message.sender?.color)}`}>
                                     {message.sender?.firstName ? message.sender?.firstName.split("").shift() : 'H'}
                                 </div>
                             )

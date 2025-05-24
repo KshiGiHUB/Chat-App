@@ -67,7 +67,7 @@ function Auth() {
 
                 if (data.user?.id) {
 
-                    setUserInfo(data)
+                    setUserInfo(data.user)
                     if (data.user.profileSetup) navigate("/chat")
 
                     else navigate("/profile")
@@ -97,7 +97,7 @@ function Auth() {
                 // console.log(data)
 
                 if (response.status === 201) {
-                    setUserInfo(data)
+                    setUserInfo(data.user)
                     navigate('/profile')
                 }
 
